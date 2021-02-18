@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script id="vertex-shader" type="x-shader/x-vertex">
+        attribute vec4 vPosition;
+        attribute vec4 vColor;
+        varying vec4 color;
+        
+        void main() {
+            color = vColor;
+            gl_Position = vPosition * vec4(.5, .5, .5, 1);
+        }
+    </script>
+
+    <script id="fragment-shader" type="x-shader/x-fragment">
+        precision mediump float;
+
+        varying vec4 color;
+
+        void main() {
+            gl_FragColor = vec4( color );
+        }
+    </script>
+
+    <script type="text/javascript" src="Common/webgl-utils.js"></script>
+    <script type="text/javascript" src="Common/initShaders.js"></script>
+    <script type="text/javascript" src="implementation.js"></script>
+
+    <style>
+        input[type="range"] {
+            width:400px;
+            }
+    </style>
+    
+</head>
+
+<body>
+
+    <div>
+        <input type="range" id="valueInput" name="rangeInput" min="0" max="100">
+    </div>
+
+    
+    <canvas id="gl-canvas" width="800" height="800">
+        Oops ... your browser doesn't support the HTML5 canvas element
+    </canvas>
+
+</body></html>
