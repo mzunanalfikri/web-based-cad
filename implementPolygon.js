@@ -1,43 +1,35 @@
 var gl;
 var points;
 
-var square_array = [
+var polygon_array = [
     new Float32Array([
-        -1, 1,
-        1, 1,
-        1,-1,
-        -1,-1
+        0, 2,
+        2, 0,
+        1, -1,
+        -1, -1,
+        -2, 0
     ])
 ]
 
 var colors_array = [
     new Float32Array([
-        0.0,  0.0,  0.0,  1.0, // red
+        0.0,  0.0,  0.0,  1.0,
         0.0,  0.0,  0.0,  1.0, 
         0.0,  0.0,  0.0,  1.0,  
+        0.0,  0.0,  0.0,  1.0,
         0.0,  0.0,  0.0,  1.0,
     ])
 ]
 
 window.onload = function init() {
-    var ver = square_array[0];
+    var ver = polygon_array[0];
     var col = colors_array[0];
 
     /* -- Default -- */
-    // PERSEGI
-    ver = square_array[0]; currVer = 2; 
-    webGL(square_array[0], colors_array[0]);
-    render_SQUARE2();
-
-    // opsi ubah ukuran
-    // document.addEventListener("change", function() {
-    //     var val = document.getElementById('valueInput').value;
-    //     console.log(val);
-    //     val *= 0.01;
-    //     var update_array = ver.map(x => x * val);
-    //     webGL(update_array, col);
-    //     render_SQUARE2();
-    // })
+    // POLYGON
+    ver = polygon_array[0]; currVer = 2; 
+    webGL(polygon_array[0], colors_array[0]);
+    render_POLYGON();
 
     // opsi ubah warna
     document.getElementById('colorForm').addEventListener("change", function() {
@@ -51,7 +43,7 @@ window.onload = function init() {
         newcol_array = newcol_array.map( (val,idx) => (idx % 4 === 1) ? green : val);
         newcol_array= newcol_array.map( (val,idx) => (idx % 4 === 2) ? blue : val);
         webGL(ver, newcol_array);
-        render_SQUARE2();
+        render_POLYGON();
    
     // return data;   
     })
@@ -94,7 +86,7 @@ function webGL(vertices, colors) {
     gl.enableVertexAttribArray(vColor);
 }
 
-function render_SQUARE2() {
+function render_POLYGON() {
     gl.clear(gl.COLOR_BUFFER_BIT);
-    gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
+    gl.drawArrays(gl.TRIANGLE_FAN, 0, 5);
 }
