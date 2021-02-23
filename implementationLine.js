@@ -21,6 +21,7 @@ var colors_array = [
 
 window.onload = function init() {
     var ver = line_array[0];
+    var or_ver =  Object.assign({}, line_array[0]);
     var col = colors_array[0];
     var drag = false;
 
@@ -29,6 +30,44 @@ window.onload = function init() {
     currVer = 2; 
     webGL(ver, col);
     render_LINE();
+
+    var range = document.getElementById("adjust_line");
+
+    range.addEventListener("change", function(event){
+        value = range.value / 100;
+
+        x1 = or_ver[0]; y1 = or_ver[1];
+        x2 = or_ver[2]; y2 = or_ver[3];
+        if (x1 > x2) {
+            x2 = or_ver[0]; y2 = or_ver[1];
+            x1 = or_ver[2]; y1 = or_ver[3];
+        }
+        console.log("x1 y1 :" + x1 + "," + y1);
+        console.log("x1 y2 :" + x2 + "," + y2);
+        m = (y2-y1)/(x2-x1);
+
+        if (value > 1){
+            value = value -1;
+            // diperbesar
+            ver[2] = x2 + (Math.abs(2 - x2) * value);
+            ver[0] = x1 - (Math.abs(-2 - x1) * value);
+            ver[3] = m * (ver[2] - x1) + y1;
+            ver[1] = m * (ver[0] - x1) + y1;
+            webGL(ver, colors_array[0]);
+            render_LINE();
+        } else {
+            value = 1-value;
+            // diperkecil
+            jarak = (x2 - x1) / 2
+            ver[2] = x2 - (jarak * value);
+            ver[0] = x1 + (jarak * value);
+            ver[3] = m * (ver[2] - x1) + y1;
+            ver[1] = m * (ver[0] - x1) + y1;
+            webGL(ver, colors_array[0]);
+            render_LINE();
+        }
+
+    })
 
     var canvas = document.getElementById("gl-canvas");
     
@@ -45,6 +84,8 @@ window.onload = function init() {
             if (drag){
                 ver[0] = mousePos.x;
                 ver[1] = mousePos.y;
+                or_ver = ver;
+                range.value = 100;
                 webGL(ver, colors_array[0]);
                 render_LINE();
             }
@@ -53,6 +94,8 @@ window.onload = function init() {
             if (drag){
                 ver[2] = mousePos.x;
                 ver[3] = mousePos.y;
+                or_ver = ver;
+                range.value = 100;
                 webGL(ver, colors_array[0]);
                 render_LINE();
             }
