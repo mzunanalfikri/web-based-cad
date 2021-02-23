@@ -1,0 +1,59 @@
+input[type="range"] {
+    width:400px;
+}
+
+.help-button {
+    height: 4em;
+    width: 4em;
+    border-radius: 50%;
+    border: 0 none;
+    background: #72ab59;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    transform: scale(1);
+    transition: all 200ms ease;
+    float: right;
+}
+
+.help-button:hover,
+.help-button:focus,
+.help-button:active {
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+    outline: 0;
+}
+
+.help-button span {
+    display: block;
+    font-size: 2em;
+    transform: scale(1);
+    transition: transform 100ms ease;
+}
+
+.help-message {
+    float: right;
+    margin: 5px;
+
+}
+
+ol p {
+    padding: 0px;
+    color:#fff;
+}
+  
+ol {
+    width: fit-content;
+    height: fit-content;
+    background: #72ab59;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    padding: 25px;
+    float: left;
+    border-radius: 10px;
+}
+
+ol li {
+    color: #fff;
+    padding: 5px;
+    margin-left: 10px;
+}
+  
