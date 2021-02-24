@@ -31,8 +31,8 @@ var col = colors_array[0];
 window.onload = function init() {
     /* -- Default -- */
     // PERSEGI
-    // webGL(ver, col);
-    // render_SQUARE();
+    webGL(ver, col);
+    render_SQUARE();
 
     // load dari file
     var fs = document.getElementById("myfile");
