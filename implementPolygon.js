@@ -1,6 +1,8 @@
 var gl;
 var array_points=[];
 var colors=[];
+var hexcolor;
+var shapes;
 
 var polygon_array = [
     new Float32Array([
@@ -41,13 +43,18 @@ window.onload = function init() {
 
     // opsi ubah warna
     document.getElementById('colorValue').addEventListener("change", function() {
-        var color = document.getElementById('colorValue').value;
-        let rgb =hexToRGB(color);
+        hexcolor = document.getElementById('colorValue').value;
+        let rgb =hexToRGB(hexcolor);
         // console.log(rgb);
         col = col.map( (val,idx) => (idx % 4 === 0) ? rgb[0] : val);
         col = col.map( (val,idx) => (idx % 4 === 1) ? rgb[1] : val);
         col= col.map( (val,idx) => (idx % 4 === 2) ? rgb[2] : val);
         render_POLYGON();
+    })
+
+    document.getElementById('s').addEventListener("click", function() {
+        console.log("masuk save");
+        saveXml();
     })
 };
 
@@ -88,9 +95,9 @@ function hexToRGB(hex){
 
 function fromXML(xmlObject){
     // let polygon = new polygon([], xmlObject.getAttribute("color"));
-    let color = xmlObject.getAttribute("color");
-    console.log(color);
-    let rgb =hexToRGB(color);
+    hexcolor = xmlObject.getAttribute("color");
+    console.log(hexcolor);
+    let rgb =hexToRGB(hexcolor);
     let xmlPoints = xmlObject.childNodes;
     console.log(xmlPoints);
     for(let i=0; i<xmlPoints.length; i++){
@@ -116,11 +123,31 @@ function fromXML(xmlObject){
 
 function toXML(){
     var xmlDoc = document.createElement('polygon');
-    xmlDoc.setAttribute('color', this.color);
-    for(let i=0; i<this.points.length; i++){
-        xmlDoc.appendChild(this.points[i].toXML());
+    xmlDoc.setAttribute('color', hexcolor);
+    for(let i=0; i<ver.length; i+=2){
+        var p = document.createElement("points");
+        p.setAttribute('x', ver[i]);
+        p.setAttribute('y', ver[i+1]);
+        xmlDoc.appendChild(p);
     }
+    console.log(xmlDoc);
     return xmlDoc;
+}
+
+function saveXml(){
+    var doc = document.implementation.createDocument('','',null);
+    if(!shapes){
+        shapes=[];
+    }
+    console.log("Saving to XML...");
+    var shapesDocument = doc.createElement('shapes');
+    shapesDocument.appendChild(toXML());
+    doc.appendChild(shapesDocument);
+
+    var data = new Blob([(new XMLSerializer()).serializeToString(doc)], {type: 'text/xml'});
+    var url = URL.createObjectURL(data);
+
+    document.getElementById('s').href = url;
 }
 
 function webGL(vertices, colors) {
