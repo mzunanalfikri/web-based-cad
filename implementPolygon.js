@@ -48,7 +48,6 @@ window.onload = function init() {
         col= col.map( (val,idx) => (idx % 4 === 2) ? rgb[2] : val);
         render_POLYGON();
     })
-
     document.getElementById('s').addEventListener("click", function() {
         console.log("masuk save");
         saveXml();
