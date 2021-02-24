@@ -3,6 +3,7 @@ var points;
 
 var array_points=[];
 var colors=[];
+var hexcolor;
 
 var square_array = [
     new Float32Array([
@@ -53,7 +54,11 @@ window.onload = function init() {
         render_SQUARE();
     })
 
-
+    // simpan file
+    document.getElementById('s').addEventListener("click", function() {
+        console.log("masuk save");
+        saveXml();
+    })
 };
 
 function webGL(vertices, colors) {
@@ -151,10 +156,27 @@ function fromXML(xmlObject){
 }
 
 function toXML(){
-    var xmlDoc = document.createElement('square');
-    xmlDoc.setAttribute('color', this.color);
-    for(let i=0; i<this.points.length; i++){
-        xmlDoc.appendChild(this.points[i].toXML());
+    var xmlDoc = document.createElement('persegi');
+    xmlDoc.setAttribute('color', hexcolor);
+    for(let i=0; i<ver.length; i+=2){
+        var p = document.createElement("points");
+        p.setAttribute('x', ver[i]);
+        p.setAttribute('y', ver[i+1]);
+        xmlDoc.appendChild(p);
     }
+    console.log(xmlDoc);
     return xmlDoc;
+}
+
+function saveXml(){
+    var doc = document.implementation.createDocument('','',null);
+    console.log("Saving to XML...");
+    var shapesDocument = doc.createElement('shapes');
+    shapesDocument.appendChild(toXML());
+    doc.appendChild(shapesDocument);
+
+    var data = new Blob([(new XMLSerializer()).serializeToString(doc)], {type: 'text/xml'});
+    var url = URL.createObjectURL(data);
+
+    document.getElementById('s').href = url;
 }
