@@ -1,5 +1,6 @@
 var gl;
 var array_points=[];
+var colors=[];
 
 var polygon_array = [
     new Float32Array([
@@ -13,11 +14,12 @@ var polygon_array = [
 
 var colors_array = [
     new Float32Array([
-        0.0,  0.0,  0.0,  1.0,
-        0.0,  0.0,  0.0,  1.0, 
-        0.0,  0.0,  0.0,  1.0,  
-        0.0,  0.0,  0.0,  1.0,
-        0.0,  0.0,  0.0,  1.0,
+        // 0.0,  0.0,  0.0,  1.0,
+        // 0.0,  0.0,  0.0,  1.0, 
+        // 0.0,  0.0,  0.0,  1.0,  
+        // 0.0,  0.0,  0.0,  1.0,
+        // 0.0,  0.0,  0.0,  1.0,
+        // 0.0,  0.0,  0.0,  1.0,
     ])
 ]
 
@@ -31,9 +33,6 @@ window.onload = function init() {
     fs.addEventListener('change', (event) => {
         fs.files[0].text().then((text) => {
             loadXml(text);
-            // console.log("halo halo");
-            // console.log(this.array_points.length/2);
-            // webGL(polygon_array[0], colors_array[0]);
             render_POLYGON();
         })
     })
@@ -48,7 +47,6 @@ window.onload = function init() {
         col = col.map( (val,idx) => (idx % 4 === 0) ? rgb[0] : val);
         col = col.map( (val,idx) => (idx % 4 === 1) ? rgb[1] : val);
         col= col.map( (val,idx) => (idx % 4 === 2) ? rgb[2] : val);
-        // webGL(ver, col);
         render_POLYGON();
     })
 };
@@ -90,22 +88,29 @@ function hexToRGB(hex){
 
 function fromXML(xmlObject){
     // let polygon = new polygon([], xmlObject.getAttribute("color"));
+    let color = xmlObject.getAttribute("color");
+    console.log(color);
+    let rgb =hexToRGB(color);
     let xmlPoints = xmlObject.childNodes;
     console.log(xmlPoints);
     for(let i=0; i<xmlPoints.length; i++){
-        console.log(i);
         if(xmlPoints[i].nodeType !==Node.TEXT_NODE){
             let x = parseFloat(xmlPoints[i].getAttribute("x"));
             let y = parseFloat(xmlPoints[i].getAttribute("y"));
-            let color = xmlPoints[i].getAttribute("color");
+            // let color = xmlPoints[i].getAttribute("color");
             console.log("ini titik");
             console.log(x,y);
             array_points.push(x);
             array_points.push(y);
+            colors.push(rgb[0]);
+            colors.push(rgb[1]);
+            colors.push(rgb[2]);
+            colors.push(1);
         }
     }
     console.log(array_points);
     ver = new Float32Array(array_points);
+    col = new Float32Array(colors);
     return array_points;
 }
 
