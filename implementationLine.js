@@ -1,6 +1,10 @@
 var gl;
 var points;
 
+var array_points=[];
+var colors=[];
+var hexcolor;
+
 var line_array = [
     new Float32Array([
         0, 0,
@@ -19,11 +23,31 @@ var colors_array = [
     ])
 ]
 
+var ver = line_array[0];
+var col = colors_array[0];
+
 window.onload = function init() {
-    var ver = line_array[0];
-    var or_ver =  Object.assign({}, line_array[0]);
-    var col = colors_array[0];
+    var or_ver =  Object.assign({}, ver);
     var drag = false;
+
+    // load dari file
+    var fs = document.getElementById("myfile");
+    fs.addEventListener('change', (event) => {
+        fs.files[0].text().then((text) => {
+
+            loadXml(text);
+            // get points & color
+            or_ver = Object.assign({}, ver);
+            webGL(ver, col);
+            render_LINE();
+        })
+    })
+
+    // simpan file
+    document.getElementById('s').addEventListener("click", function() {
+        console.log("masuk save");
+        saveXml();
+    })
 
     /* -- Default -- */
     // LINES
@@ -53,7 +77,7 @@ window.onload = function init() {
             ver[0] = x1 - (Math.abs(-2 - x1) * value);
             ver[3] = m * (ver[2] - x1) + y1;
             ver[1] = m * (ver[0] - x1) + y1;
-            webGL(ver, colors_array[0]);
+            webGL(ver, col);
             render_LINE();
         } else {
             value = 1-value;
@@ -63,7 +87,7 @@ window.onload = function init() {
             ver[0] = x1 + (jarak * value);
             ver[3] = m * (ver[2] - x1) + y1;
             ver[1] = m * (ver[0] - x1) + y1;
-            webGL(ver, colors_array[0]);
+            webGL(ver, col);
             render_LINE();
         }
 
@@ -86,7 +110,7 @@ window.onload = function init() {
                 ver[1] = mousePos.y;
                 or_ver = ver;
                 range.value = 100;
-                webGL(ver, colors_array[0]);
+                webGL(ver, col);
                 render_LINE();
             }
         } else if (isNearThePoint({x:ver[2], y:ver[3]}, mousePos)){
@@ -96,7 +120,7 @@ window.onload = function init() {
                 ver[3] = mousePos.y;
                 or_ver = ver;
                 range.value = 100;
-                webGL(ver, colors_array[0]);
+                webGL(ver, col);
                 render_LINE();
             }
         } else {
@@ -169,4 +193,83 @@ function webGL(vertices, colors) {
 function render_LINE() {
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.drawArrays(gl.LINES, 0, 2);
+}
+
+function loadXml(xmlText) {
+    xmlDocument = (new DOMParser()).parseFromString(xmlText, "text/xml");
+    shapes = []
+    console.log("Loading from XML...");
+  
+    let xmlSquare = xmlDocument.getElementsByTagName("line");
+    for (let i = 0; i < xmlSquare.length; i++) {
+        shapes.push(fromXML(xmlSquare[i]));
+    }
+}
+
+function hexToRGB(hex){
+    if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
+      let c = hex.substring(1).split('');
+      if (c.length == 3) {
+          c = [c[0], c[0], c[1], c[1], c[2], c[2]];
+      }
+      c = '0x' + c.join('');
+      return [((c>>16)&255)/255, ((c>>8)&255)/255, (c&255)/255];
+    }
+    throw new Error('Invalid hex code!');
+  }
+
+
+function fromXML(xmlObject){
+    // let polygon = new polygon([], xmlObject.getAttribute("color"));
+    let color = xmlObject.getAttribute("color");
+    hexcolor = color;
+    console.log(color);
+    let rgb =hexToRGB(color);
+    let xmlPoints = xmlObject.childNodes;
+    console.log(xmlPoints);
+    for(let i=0; i<xmlPoints.length; i++){
+        if(xmlPoints[i].nodeType !==Node.TEXT_NODE){
+            let x = parseFloat(xmlPoints[i].getAttribute("x"));
+            let y = parseFloat(xmlPoints[i].getAttribute("y"));
+            // let color = xmlPoints[i].getAttribute("color");
+            console.log("ini titik");
+            console.log(x,y);
+            array_points.push(x);
+            array_points.push(y);
+            colors.push(rgb[0]);
+            colors.push(rgb[1]);
+            colors.push(rgb[2]);
+            colors.push(1);
+        }
+    }
+    console.log(array_points);
+    ver = new Float32Array(array_points);
+    col = new Float32Array(colors);
+    return array_points;
+}
+
+function toXML(){
+    var xmlDoc = document.createElement('line');
+    xmlDoc.setAttribute('color', hexcolor);
+    for(let i=0; i<ver.length; i+=2){
+        var p = document.createElement("points");
+        p.setAttribute('x', ver[i]);
+        p.setAttribute('y', ver[i+1]);
+        xmlDoc.appendChild(p);
+    }
+    console.log(xmlDoc);
+    return xmlDoc;
+}
+
+function saveXml(){
+    var doc = document.implementation.createDocument('','',null);
+    console.log("Saving to XML...");
+    var shapesDocument = doc.createElement('shapes');
+    shapesDocument.appendChild(toXML());
+    doc.appendChild(shapesDocument);
+
+    var data = new Blob([(new XMLSerializer()).serializeToString(doc)], {type: 'text/xml'});
+    var url = URL.createObjectURL(data);
+
+    document.getElementById('s').href = url;
 }
