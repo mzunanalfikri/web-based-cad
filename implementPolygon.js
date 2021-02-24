@@ -2,7 +2,6 @@ var gl;
 var array_points=[];
 var colors=[];
 var hexcolor;
-var shapes;
 
 var polygon_array = [
     new Float32Array([
@@ -38,8 +37,6 @@ window.onload = function init() {
             render_POLYGON();
         })
     })
-    // webGL(polygon_array[0], colors_array[0]);
-    // render_POLYGON();
 
     // opsi ubah warna
     document.getElementById('colorValue').addEventListener("change", function() {
@@ -60,24 +57,12 @@ window.onload = function init() {
 
 function loadXml(xmlText) {
     xmlDocument = (new DOMParser()).parseFromString(xmlText, "text/xml");
-    shapes = []
     console.log("Loading from XML...");
-  
-    // let xmlLines = xmlDocument.getElementsByTagName("line");
-    // for (let i = 0; i < xmlLines.length; i++) {
-    //   shapes.push(Line.fromXML(xmlLines[i]));
-    // }
-  
-    // let xmlSquares = xmlDocument.getElementsByTagName("square");
-    // for (let i = 0; i < xmlSquares.length; i++) {
-    //   shapes.push(Square.fromXML(xmlSquares[i]));
-    // }
   
     let xmlPolygons = xmlDocument.getElementsByTagName("polygon");
     for (let i = 0; i < xmlPolygons.length; i++) {
-        shapes.push(fromXML(xmlPolygons[i]));
+        fromXML(xmlPolygons[i]);
     }
-    // console.log(shapes)
   }
 
 function hexToRGB(hex){
@@ -136,9 +121,6 @@ function toXML(){
 
 function saveXml(){
     var doc = document.implementation.createDocument('','',null);
-    if(!shapes){
-        shapes=[];
-    }
     console.log("Saving to XML...");
     var shapesDocument = doc.createElement('shapes');
     shapesDocument.appendChild(toXML());
