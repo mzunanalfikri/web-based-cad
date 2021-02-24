@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script id="vertex-shader" type="x-shader/x-vertex">
+        attribute vec4 vPosition;
+        attribute vec4 vColor;
+        varying vec4 color;
+        
+        void main() {
+            color = vColor;
+            gl_Position = vPosition * vec4(.5, .5, .5, 1);
+        }
+    </script>
+
+    <script id="fragment-shader" type="x-shader/x-fragment">
+        precision mediump float;
+
+        varying vec4 color;
+
+        void main() {
+            gl_FragColor = vec4( color );
+        }
+    </script>
+
+    <script type="text/javascript" src="Common/webgl-utils.js"></script>
+    <script type="text/javascript" src="Common/initShaders.js"></script>
+    <script type="text/javascript" src="implementation.js"></script>
+    
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <!-- HELP BUTTON -->
+    <button class="help-button" id="helpButton">
+        <span>?</span>
+    </button>
+
+    <div class="help-message" id="helpMessage">
+        <ol>
+            <li>Menu Utama</li>
+            <li>Mengupload Konfigurasi Titik dan Warna
+                <p>Simpan data titik dan warna di dalam file bertipe .xml</p>
+                <p>Upload file melalui menu <b>Pilih File</b></p>
+                <p>Website akan otomatis merender model yang disimpan di dalam file</p>
+            </li>
+
+            <li>Menggeser Titik Kontrol Garis<br>
+                <p>Titik kontrol pada garis dapat digeser dengan mengklik salah satu titik</p>
+            </li>
+
+            <li>Mengubah Ukuran Garis
+                <p>Geser slider ke kanan untuk memperbesar panjang garis</p>
+                <p>Geser slider ke kiri untuk memperkecil panjang garis</p>
+            </li>
+
+            <li>Mengubah Ukuran Persegi
+                <p>Geser slider ke kanan untuk memperbesar ukuran persegi</p>
+                <p>Geser slider ke kiri untuk memperkecil ukuran persegi</p>
+            </li>
+
+            <li>Mengubah Warna Poligon
+                <p>Warna poligon dapat dirubah dengan memilih menu masukan <b>pemilihan warna</b></p>
+            </li>
+        </ol>
+    </div><br>
+
+    <!-- INPUT FILE -->
+    <div id="inputFile">
+        <input type="file" id="myfile" name="myfile">
+    </div>
+
+    <!-- PERSEGI -->
+    <div>
+        <input type="range" id="valueInput" name="rangeInput" min="0" max="100">
+    </div>
+    
+    <canvas id="gl-canvas" width="800" height="800" style="border: 1px solid blue;">
+        Oops ... your browser doesn't support the HTML5 canvas element
+    </canvas><br>
+
+    <script type="text/javascript" src="index.js"></script>
+
+</body></html>
