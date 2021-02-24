@@ -36,21 +36,28 @@
     <button class="help-button" id="helpButton">
         <span>?</span>
     </button>
-
     <div class="help-message" id="helpMessage">
         <ol>
-            <li>Menu utama</li>
-            <li>Garis</li>
-            <li>Persegi</li>
-            <li>Poligon</li>
+            <li>Menu Utama</li>
+            <li>Mengupload Konfigurasi Titik dan Warna
+                <p>Simpan data titik dan warna di dalam file bertipe .xml</p>
+                <p>Upload file melalui menu <b>Pilih File</b></p>
+                <p>Website akan otomatis merender model yang disimpan di dalam file</p>
+            </li>
+
+            <li>Mengubah Warna Poligon
+                <p>Warna poligon dapat dirubah dengan memilih menu masukan <b>pemilihan warna</b></p>
+            </li>
+
+            <li>Meyimpan Konfigurasi
+                <p>Klik menu <b>save</b> untuk menyimpan konfigurasi model</p>
+            </li>
         </ol>
     </div><br>
 
     <div id="inputFile">
         <input type="file" id="myfile" name="myfile">
     </div>
-
-
     <!-- POLYGON -->
     <div>
         <p>Pemilihan warna : </p>
@@ -62,7 +69,6 @@
             <a class="button" type="button" id='s' download="saved_file.xml" href="">Save</a>
         </form>
     </div>
-
     
     <canvas id="gl-canvas" width="800" height="800" style="border: 1px solid blue;">
         Oops ... your browser doesn't support the HTML5 canvas element
