@@ -26,8 +26,8 @@
     <script type="text/javascript" src="Common/webgl-utils.js"></script>
     <script type="text/javascript" src="Common/initShaders.js"></script>
     <!-- <script type="text/javascript" src="implementation.js"></script> -->
-    <!-- <script type="text/javascript" src="implementPolygon.js"></script> -->
-    <script type="text/javascript" src="implementationLine.js"></script>
+    <script type="text/javascript" src="implementPolygon.js"></script>
+    <!-- <script type="text/javascript" src="implementationLine.js"></script> -->
     
     <link rel="stylesheet" href="style.css">
 
@@ -46,27 +46,31 @@
             <li>Poligon</li>
         </ol>
     </div><br>
-
+    <div id="inputFile">
+        <input type="file" id="myfile" name="myfile">
+    </div>
     <!-- PERSEGI -->
     <!-- <div>
         <input type="range" id="valueInput" name="rangeInput" min="0" max="100">
     </div> -->
 
-    <!-- PLOYGON -->
-    <!-- <div>
+    <!-- POLYGON -->
+    <div>
         <p>Pemilihan warna : </p>
         <form id="colorForm">
-            Red: <input type="number" id="redValue" step="0.1" min = 0 max = 1>
+            <!-- Red: <input type="number" id="redValue" step="0.1" min = 0 max = 1>
             Green: <input type="number" id="greenValue" step="0.1" min = 0 max = 1>
-            Blue: <input type="number" id="blueValue" step="0.1" min = 0 max = 1>   
+            Blue: <input type="number" id="blueValue" step="0.1" min = 0 max = 1>    -->
+            <input type="color" id="colorValue" name="colorValue" value="#ff0000">
+
         </form>
-    </div> -->
+    </div>
 
     <!-- LINE -->
     <!-- mungkin slider buat manjang mendekin garis -->
-    <div>
+    <!-- <div>
         <input type="range" id="adjust_line" name="rangeInput" min="0" max="200" value="100">
-    </div>
+    </div> -->
     
     <canvas id="gl-canvas" width="800" height="800" style="border: 1px solid blue;">
         Oops ... your browser doesn't support the HTML5 canvas element
