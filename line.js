@@ -108,7 +108,7 @@ window.onload = function init() {
             if (drag){
                 ver[0] = mousePos.x;
                 ver[1] = mousePos.y;
-                or_ver = ver;
+                or_ver = Object.assign({}, ver);
                 range.value = 100;
                 webGL(ver, col);
                 render_LINE();
@@ -118,7 +118,7 @@ window.onload = function init() {
             if (drag){
                 ver[2] = mousePos.x;
                 ver[3] = mousePos.y;
-                or_ver = ver;
+                or_ver = Object.assign({}, ver);
                 range.value = 100;
                 webGL(ver, col);
                 render_LINE();
