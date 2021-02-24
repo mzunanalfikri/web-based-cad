@@ -3,7 +3,7 @@ var points;
 
 var array_points=[];
 var colors=[];
-var hexcolor;
+var hexcolor = "#ff0000";
 
 var square_array = [
     new Float32Array([
@@ -31,8 +31,8 @@ var col = colors_array[0];
 window.onload = function init() {
     /* -- Default -- */
     // PERSEGI
-    webGL(ver, col);
-    render_SQUARE();
+    // webGL(ver, col);
+    // render_SQUARE();
 
     // load dari file
     var fs = document.getElementById("myfile");
@@ -156,7 +156,7 @@ function fromXML(xmlObject){
 }
 
 function toXML(){
-    var xmlDoc = document.createElement('persegi');
+    var xmlDoc = document.createElement('square');
     xmlDoc.setAttribute('color', hexcolor);
     for(let i=0; i<ver.length; i+=2){
         var p = document.createElement("points");
